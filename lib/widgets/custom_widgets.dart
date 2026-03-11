@@ -467,7 +467,15 @@ class ZakatCategoryCard extends StatelessWidget {
                             : Colors.white.withAlpha(30),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: SvgPicture.asset(iconPath, width: 24, height: 24),
+                      child: SvgPicture.asset(
+                        iconPath,
+                        width: 24,
+                        height: 24,
+                        colorFilter: ColorFilter.mode(
+                          Colors.white.withOpacity(0.7),
+                          BlendMode.srcIn,
+                        ),
+                      ),
                     ),
                     const Spacer(),
                     Text(

@@ -10,11 +10,10 @@ import 'cash_zakat_screen.dart';
 import 'business_zakat_screen.dart';
 import 'agriculture_zakat_screen.dart';
 import 'livestock_zakat_screen.dart';
-import 'zakat_guide_screen.dart';
 import 'total_zakat_screen.dart';
-import 'islamic_calendar_screen.dart';
 import '../constants/translations.dart';
 import '../main.dart';
+import '../widgets/app_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -118,7 +117,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      drawer: _buildDrawer(context),
+      drawer: AppDrawer(
+        goldZakat: goldZakat,
+        silverZakat: silverZakat,
+        cashZakat: cashZakat,
+        businessZakat: businessZakat,
+        agricultureZakat: agricultureZakat,
+        livestockZakat: livestockZakat,
+        onClear: _clearAllData,
+        onThemeToggled: _toggleTheme,
+      ),
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
@@ -528,176 +536,6 @@ class _HomeScreenState extends State<HomeScreen> {
             const SliverToBoxAdapter(child: SizedBox(height: 20)),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildDrawer(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return Drawer(
-      child: Column(
-        children: [
-          DrawerHeader(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Color(0xFF0D3B19), Color(0xFF1A5F2C)],
-              ),
-            ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset(
-                      'assets/app_logo.png',
-                      width: 60,
-                      height: 60,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    AppTranslations.getText('app_name'),
-                    style: ZakatStyles.getTextStyle(
-                      text: AppTranslations.getText('app_name'),
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      isTitle: true,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          ListTile(
-            leading: SvgPicture.asset(
-              'assets/svg icons/business.svg',
-              width: 24,
-            ),
-            title: Text(
-              AppTranslations.getText('view_summary'),
-              style: ZakatStyles.getTextStyle(
-                text: AppTranslations.getText('view_summary'),
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TotalZakatScreen(
-                    goldZakat: goldZakat,
-                    silverZakat: silverZakat,
-                    cashZakat: cashZakat,
-                    businessZakat: businessZakat,
-                    agricultureZakat: agricultureZakat,
-                    livestockZakat: livestockZakat,
-                    onClear: _clearAllData,
-                  ),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            leading: SvgPicture.asset(
-              'assets/svg icons/zakat_guide.svg',
-              width: 24,
-            ),
-            title: Text(
-              AppTranslations.getText('zakat_guide'),
-              style: ZakatStyles.getTextStyle(
-                text: AppTranslations.getText('zakat_guide'),
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ZakatGuideScreen(),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            leading: SvgPicture.asset(
-              'assets/svg icons/calender.svg',
-              width: 24,
-            ),
-            title: Text(
-              AppTranslations.getText('islamic_calendar'),
-              style: ZakatStyles.getTextStyle(
-                text: AppTranslations.getText('islamic_calendar'),
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const IslamicCalendarScreen(),
-                ),
-              );
-            },
-          ),
-          const Divider(),
-          ValueListenableBuilder<ThemeMode>(
-            valueListenable: themeNotifier,
-            builder: (context, mode, child) {
-              final isDark = mode == ThemeMode.dark;
-              return ListTile(
-                leading: SvgPicture.asset(
-                  'assets/svg icons/dark_mode.svg',
-                  width: 24,
-                ),
-                title: Text(
-                  AppTranslations.getText('dark_mode'),
-                  style: ZakatStyles.getTextStyle(
-                    text: AppTranslations.getText('dark_mode'),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                trailing: Switch(
-                  value: isDark,
-                  activeColor: const Color(0xFFD4AF37),
-                  onChanged: (value) => _toggleTheme(),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            leading: SvgPicture.asset(
-              'assets/svg icons/delete.svg',
-              color: Colors.red,
-              width: 24,
-            ),
-            title: Text(
-              AppTranslations.getText('clear_all'),
-              style: ZakatStyles.getTextStyle(
-                text: AppTranslations.getText('clear_all'),
-                color: Colors.red,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              _clearAllData();
-            },
-          ),
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Text(
-              'v1.0.0',
-              style: TextStyle(color: Colors.grey.shade400, fontSize: 12),
-            ),
-          ),
-        ],
       ),
     );
   }

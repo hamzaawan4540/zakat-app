@@ -284,8 +284,8 @@ class _TasbeehScreenState extends State<TasbeehScreen>
                         boxShadow: [
                           BoxShadow(
                             color: primaryColor.withAlpha(isDark ? 50 : 30),
-                            blurRadius: 30,
-                            offset: const Offset(0, 15),
+                            blurRadius: 5,
+                            offset: const Offset(0, 2),
                           ),
                         ],
                         border: Border.all(
@@ -304,15 +304,16 @@ class _TasbeehScreenState extends State<TasbeehScreen>
                               color: isDark ? Colors.white : Colors.black87,
                             ),
                           ),
-                          Text(
-                            '/ $_target',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: isDark
-                                  ? Colors.white54
-                                  : Colors.grey.shade600,
+                          if (_target != 999999)
+                            Text(
+                              '/ $_target',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: isDark
+                                    ? Colors.white54
+                                    : Colors.grey.shade600,
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     ),
@@ -331,7 +332,7 @@ class _TasbeehScreenState extends State<TasbeehScreen>
                 const SizedBox(width: 15),
                 _targetChip(100),
                 const SizedBox(width: 15),
-                _targetChip(0, label: 'Infinite'),
+                _targetChip(999999, label: 'Infinite'),
               ],
             ),
 
@@ -369,7 +370,7 @@ class _TasbeehScreenState extends State<TasbeehScreen>
           : (isDark ? Colors.white10 : Colors.white),
       onPressed: () {
         setState(() {
-          _target = val == 0 ? 999999 : val;
+          _target = val;
           _counter = 0;
         });
         HapticFeedback.selectionClick();

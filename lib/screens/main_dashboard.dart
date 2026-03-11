@@ -105,6 +105,14 @@ class _MainDashboardState extends State<MainDashboard> {
     final isSelected = _selectedIndex == index;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
+    final iconColor = isSelected
+        ? primaryColor
+        : (isDark ? Colors.white : Colors.grey.shade600);
+
+    final textColor = isSelected
+        ? primaryColor
+        : (isDark ? Colors.white54 : Colors.grey.shade600);
+
     return GestureDetector(
       onTap: () => _onItemTapped(index),
       behavior: HitTestBehavior.opaque,
@@ -116,16 +124,19 @@ class _MainDashboardState extends State<MainDashboard> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Opacity(
-              opacity: isSelected ? 1.0 : 0.6,
-              child: SvgPicture.asset(svgPath, width: 24, height: 24),
+              opacity: isSelected ? 1.0 : (isDark ? 0.8 : 0.6),
+              child: SvgPicture.asset(
+                svgPath,
+                width: 24,
+                height: 24,
+                colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
+              ),
             ),
             const SizedBox(height: 2),
             Text(
               label,
               style: TextStyle(
-                color: isSelected
-                    ? primaryColor
-                    : (isDark ? Colors.white38 : Colors.grey.shade600),
+                color: textColor,
                 fontSize: 10,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
